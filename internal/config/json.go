@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	configFileName = ".rss-feed-aggregator.json"
+	//configFileName = ".rss-feed-aggregator.json"
+	configFileName = ".gatorconfig.json"
 )
 
 type Config struct {
