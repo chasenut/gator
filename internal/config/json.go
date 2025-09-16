@@ -25,18 +25,23 @@ func getConfigFilePath() (string, error) {
 }
 
 func write(cfg Config) error {
-	data, err := json.Marshal(cfg)
-	if err != nil {
-		return err
-	}
 	configPath, err := getConfigFilePath()
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(configPath, data, 0666) // 0666 = perms, everyone can r,w
+
+	file, err := os.Create(configPath)
 	if err != nil {
 		return err
 	}
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	err = encoder.Encode(cfg)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -45,15 +50,19 @@ func Read() (Config, error) {
 	if err != nil {
 		return Config{}, err
 	}
-	fileData, err := os.ReadFile(configPath)
+	file, err := os.Open(configPath)
 	if err != nil {
 		return Config{}, err
 	}
+	defer file.Close()
+
 	var config Config
-	err = json.Unmarshal(fileData, &config)
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&config)
 	if err != nil {
 		return Config{}, err
 	}
+
 	return config, nil
 }
 
