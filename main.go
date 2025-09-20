@@ -39,6 +39,7 @@ func main() {
 	cmds.register("register", handlerRegister)
 	cmds.register("reset", handlerReset)
 	cmds.register("users", handlerListUsers)
+	cmds.register("agg", handlerAggregator)
 
 	args := os.Args
 	if len(args) < 2 {
@@ -48,13 +49,12 @@ func main() {
 	cmdName := args[1]
 	cmdArgs := args[2:]
 	cmd := command{
-		name: cmdName,
-		args: cmdArgs,
+		Name: cmdName,
+		Args: cmdArgs,
 	}
 	err = cmds.run(programState, cmd)
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
 }
 

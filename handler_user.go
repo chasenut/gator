@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/chasenut/rss-feed-aggregator/internal/database"
@@ -12,28 +11,28 @@ import (
 )
 
 func handlerLogin(s *state, cmd command) error {
-	if len(cmd.args) == 0 {
+	if len(cmd.Args) == 0 {
 		return errors.New("Not enough positional arguments provided")
 	}
-	name := cmd.args[0]
+	name := cmd.Args[0]
 	if _, err := s.db.GetUser(context.Background(), name); err != nil {
-		log.Fatal("Cannot login, no such user exists")
+		return fmt.Errorf("cannot login: %w", err)
 	}
 	err := s.cfg.SetUser(name)
 	if err != nil {
-		return err
+		return fmt.Errorf("couldn't set current user: ", err)
 	}
 	fmt.Println("Successfully changed the user")
 	return nil
 }
 
 func handlerRegister(s *state, cmd command) error {
-	if len(cmd.args) == 0 {
-		return errors.New("Not enough positional arguments provided")
+	if len(cmd.Args) == 0 {
+		return fmt.Errorf("usage: %s <Name>", cmd.Name)
 	}
-	name := cmd.args[0]
+	name := cmd.Args[0]
 	if _, err := s.db.GetUser(context.Background(), name); err == nil {
-		log.Fatal("User already exists")
+		return fmt.Errorf("user already exists: %w", err)
 	}
 	user, err := s.db.CreateUser(context.Background(), database.CreateUserParams{
 		ID: uuid.New(),
@@ -53,19 +52,10 @@ func handlerRegister(s *state, cmd command) error {
 	return nil
 }
 
-func handlerReset(s *state, cmd command) error {
-	err := s.db.ResetUsers(context.Background());
-	if err != nil {
-		log.Fatal("Failed to reset users")
-	}
-	fmt.Println("Successfully reset users")
-	return nil
-}
-
 func handlerListUsers(s *state, cmd command) error {
 	users, err := s.db.ListUsers(context.Background())
 	if err != nil {
-		log.Fatal("Failed to access users data")
+		return fmt.Errorf("couldn't list users: %w", err)
 	}
 	if len(users) == 0 {
 		fmt.Println("List of users is empty")

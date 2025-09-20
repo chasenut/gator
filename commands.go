@@ -5,8 +5,8 @@ import (
 )
 
 type command struct {
-	name 	string
-	args 	[]string
+	Name 	string
+	Args 	[]string
 }
 
 type commands struct {
@@ -14,18 +14,11 @@ type commands struct {
 } 
 
 func (c *commands) run(s *state, cmd command) error {
-	if c == nil {
-		return fmt.Errorf("State in NULL\n")
-	}
-	command, ok := c.registeredCommands[cmd.name]
+	command, ok := c.registeredCommands[cmd.Name]
 	if !ok {
-		return fmt.Errorf("No such command exists: %v\n", cmd.name)
+		return fmt.Errorf("No such command exists: %v\n", cmd.Name)
 	}
-	err := command(s, cmd)
-	if err != nil {
-		return err
-	}
-	return nil
+	return command(s, cmd)
 }
 
 func (c *commands) register(name string, f func(s *state, cmd command) error) {
