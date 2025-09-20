@@ -13,10 +13,13 @@ additional `sslmode=disable` query added to it - application code needs to know 
 }
 ```
 
-# PostgreSQL
+# Setup and build
 
 Gator uses **PostgreSQL** database to store its information about 
-users, feeds, and other surely important stuff.
+users, feeds, and other surely important stuff. Database is set locally, 
+but you can probably also use a remote server.
+
+## PostgreSQL
 
 Here is a setup walk-through of PosgreSQL on local machine for **Linux**, 
 if you use MacOS, it might be similiar, if you use Windows, 
@@ -74,3 +77,7 @@ Install it with the following command:
 ```
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 ```
+
+## Credit
+
+Project created as a part of [boot.dev](https://boot.dev) course.

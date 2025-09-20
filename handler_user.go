@@ -49,7 +49,7 @@ func handlerRegister(s *state, cmd command) error {
 		return err
 	}
 	fmt.Println("User created successfully")
-	fmt.Printf("[DEBUG] User: %+v\n", user)
+	printUser(user)
 	return nil
 }
 
@@ -60,4 +60,30 @@ func handlerReset(s *state, cmd command) error {
 	}
 	fmt.Println("Successfully reset users")
 	return nil
+}
+
+func handlerListUsers(s *state, cmd command) error {
+	users, err := s.db.ListUsers(context.Background())
+	if err != nil {
+		log.Fatal("Failed to access users data")
+	}
+	if len(users) == 0 {
+		fmt.Println("List of users is empty")
+		return nil
+	}
+	current := s.cfg.CurrentUserName
+
+	for _, u := range users {
+		fmt.Printf("* %s", u.Name)
+		if u.Name == current {
+			fmt.Printf(" (current)")
+		}
+		fmt.Printf("\n")
+	}
+	return nil
+}
+
+func printUser(user database.User) {
+	fmt.Printf(" * ID: 		%v\n", user.ID)
+	fmt.Printf(" * Name: 	%v\n", user.Name)
 }
