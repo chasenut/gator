@@ -13,18 +13,16 @@ additional `sslmode=disable` query added to it - application code needs to know 
 }
 ```
 
-# Database
+# PostgreSQL
 
 Gator uses **PostgreSQL** database to store its information about 
 users, feeds, and other surely important stuff.
 
-# PostgreSQL setup
-
-Setup walk-through of PosgreSQL on local machine for **Linuxs**, 
+Here is a setup walk-through of PosgreSQL on local machine for **Linux**, 
 if you use MacOS, it might be similiar, if you use Windows, 
 grow some hair on your chest.
 
-## Arch
+### Arch
 
 Install PostgreSQL:
 ```
@@ -39,31 +37,24 @@ Start service:
 sudo systemctl start postgresql
 ```
 
-## Connection string
+### Connection string
 
 It might be helpful to know what the **connection string** looks like. 
-The format is:
-```
-protocol://username:password@host:port/database
-```
+The format is: `protocol://username:password@host:port/database`.
 
 On **Linux**, given the username `postgres`, password `postgres` and database `gator`,
-it looks like this (most likely):
-```
-postgres://postgres:postgres@localhost:5432/gator
-```
+it looks like this (most likely): `postgres://postgres:postgres@localhost:5432/gator`.
 
 Test your connection by running `psql`, for example:
 ```
 psql "postgres://postgres:postgres@localhost:5432/gator"
 ```
 
-
 TODO: 
 - make some script for it?
 - add for ubuntu (maybe)
 
-## Migrations
+### Migrations
 
 For migrations I can recommend using [Goose](https://github.com/pressly/goose). 
 You can install it following the install process at source, or use:
@@ -76,4 +67,10 @@ For any migrations (sql files inside `sql/schema`) use the following command:
 goose postgres <connection_url> <up/down>
 ```
 
+### SQLC
 
+[SQLC](https://sqlc.dev/) is used to compile SQL code to GO.
+Install it with the following command:
+```
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+```
