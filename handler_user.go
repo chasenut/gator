@@ -16,13 +16,13 @@ func handlerLogin(s *state, cmd command) error {
 	}
 	name := cmd.Args[0]
 	if _, err := s.db.GetUser(context.Background(), name); err != nil {
-		return fmt.Errorf("cannot login: %w", err)
+		return fmt.Errorf("no such user found, please register: %w", err)
 	}
 	err := s.cfg.SetUser(name)
 	if err != nil {
-		return fmt.Errorf("couldn't set current user: ", err)
+		return fmt.Errorf("couldn't set current user: %w", err)
 	}
-	fmt.Println("Successfully changed the user")
+	fmt.Printf("Successfully changed to the user: %s\n", name)
 	return nil
 }
 

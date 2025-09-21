@@ -10,7 +10,7 @@ func handlerReset(s *state, cmd command) error {
 	if err != nil {
 		return fmt.Errorf("failed to reset users: %w", err)
 	}
-	fmt.Println("Successfully reset users")
+	fmt.Println("Reset successfully")
 	return nil
 }
 
