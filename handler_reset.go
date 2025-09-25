@@ -6,9 +6,9 @@ import (
 )
 
 func handlerReset(s *state, cmd command) error {
-	err := s.db.ResetUsers(context.Background());
+	err := s.db.Reset(context.Background());
 	if err != nil {
-		return fmt.Errorf("failed to reset users: %w", err)
+		return fmt.Errorf("failed to reset: %w", err)
 	}
 	fmt.Println("Reset successfully")
 	return nil
