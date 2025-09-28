@@ -8,9 +8,16 @@ VALUES (
 )
 RETURNING *;
 
+-- name: DeleteUsers :exec
+DELETE FROM users;
+
 -- name: GetUser :one
 SELECT * FROM users
 WHERE name = $1;
 
--- name: ListUsers :many
+-- name: GetUsers :many
 SELECT * FROM users;
+
+-- name: GetUserById :one
+SELECT * FROM users
+WHERE id = $1;

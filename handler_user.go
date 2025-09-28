@@ -53,7 +53,7 @@ func handlerRegister(s *state, cmd command) error {
 }
 
 func handlerListUsers(s *state, cmd command) error {
-	users, err := s.db.ListUsers(context.Background())
+	users, err := s.db.GetUsers(context.Background())
 	if err != nil {
 		return fmt.Errorf("couldn't list users: %w", err)
 	}
@@ -74,6 +74,6 @@ func handlerListUsers(s *state, cmd command) error {
 }
 
 func printUser(user database.User) {
-	fmt.Printf(" * ID: 		%v\n", user.ID)
-	fmt.Printf(" * Name: 	%v\n", user.Name)
+	fmt.Printf(" * ID:		%v\n", user.ID)
+	fmt.Printf(" * Name:	%v\n", user.Name)
 }
