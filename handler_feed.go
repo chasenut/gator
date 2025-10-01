@@ -20,17 +20,12 @@ func handlerAggregator(s *state, cmd command) error {
 	return nil
 }
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) < 2 {
 		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
 	}
 	name := cmd.Args[0]
 	url := cmd.Args[1]
-
-	currentUser, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("failed to get current user: %w", err)
-	}
 
 	feed, err := s.db.CreateFeed(context.Background(), 
 		database.CreateFeedParams{
@@ -39,7 +34,7 @@ func handlerAddFeed(s *state, cmd command) error {
 			UpdatedAt: time.Now(),
 			Name: name,
 			Url: url,
-			UserID: currentUser.ID,
+			UserID: user.ID,
 		})
 	if err != nil {
 		return fmt.Errorf("failed to create new feed: %w", err)
@@ -49,7 +44,7 @@ func handlerAddFeed(s *state, cmd command) error {
 			ID: uuid.New(),
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			UserID: currentUser.ID,
+			UserID: user.ID,
 			FeedID: feed.ID,
 		})
 	if err != nil {
@@ -71,7 +66,7 @@ func handlerListFeeds(s *state, cmd command) error {
 		if err != nil {
 			return fmt.Errorf("failed to fetch user data: %w", err)
 		}
-		printFeedPro(feed, user.Name)
+		printFeedPro(feed, user)
 	}
 
 	return nil
@@ -87,12 +82,12 @@ func printFeed(feed database.Feed) {
 	fmt.Printf(" * UserID: 		%s\n", feed.UserID)
 }
 
-func printFeedPro(feed database.Feed, username string) {
+func printFeedPro(feed database.Feed, user database.User) {
 	printFeed(feed)
-	fmt.Printf(" * UserName: 	%s\n", username)
+	fmt.Printf(" * UserName: 	%s\n", user.Name)
 }
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) < 1 {
 		return fmt.Errorf("usage: %s <url>", cmd.Name)
 	}
@@ -103,17 +98,12 @@ func handlerFollow(s *state, cmd command) error {
 		return fmt.Errorf("failed to get specified feed: %w", err)
 	}
 
-	current, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("failed to get current user: %w", err)
-	}
-
 	feedFollow, err := s.db.CreateFeedFollow(context.Background(), 
 		database.CreateFeedFollowParams{
 			ID: uuid.New(),
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			UserID: current.ID,
+			UserID: user.ID,
 			FeedID: feed.ID,
 		})
 
@@ -132,13 +122,11 @@ func printFeedFollow(feedFollow database.CreateFeedFollowRow) {
 	fmt.Printf(" * Feed: 	%s\n", feedFollow.FeedName)
 }
 
-func handlerFollowing(s *state, cmd command) error {
-	currentUser, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
+func handlerFollowing(s *state, cmd command, user database.User) error {
+	followedFeeds, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
-		return fmt.Errorf("failed to get current user: %w", err)
+		return fmt.Errorf("failed to parse followedFeeds: %w", err)
 	}
-
-	followedFeeds, err := s.db.GetFeedFollowsForUser(context.Background(), currentUser.ID)
 
 	for _, f := range followedFeeds {
 		fmt.Println("Followed feeds:")

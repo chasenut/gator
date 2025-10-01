@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"fmt"
+
+	"github.com/chasenut/rss-feed-aggregator/internal/database"
 )
 
 type command struct {
@@ -23,4 +26,14 @@ func (c *commands) run(s *state, cmd command) error {
 
 func (c *commands) register(name string, f func(s *state, cmd command) error) {
 	c.registeredCommands[name] = f
+}
+
+func middlewareLoggedIn(handler func(s *state, cmd command, user database.User) error) func(*state, command) error {
+	return func(s *state, cmd command) error {
+		user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
+		if err != nil {
+			return fmt.Errorf("failed to get current user: %w", err)
+		}
+		return handler(s, cmd, user)
+	}
 }

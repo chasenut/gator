@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerLogin(s *state, cmd command) error {
+func handlerLogin(s *state, cmd command, ) error {
 	if len(cmd.Args) == 0 {
 		return errors.New("Not enough positional arguments provided")
 	}
