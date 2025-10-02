@@ -116,10 +116,24 @@ func handlerFollow(s *state, cmd command, user database.User) error {
 	return nil
 }
 
-func printFeedFollow(feedFollow database.CreateFeedFollowRow) {
-	fmt.Printf("Created new feed follow:\n")
-	fmt.Printf(" * User:	%s\n", feedFollow.UserName)
-	fmt.Printf(" * Feed: 	%s\n", feedFollow.FeedName)
+func handlerDeleteFeedFollow(s *state, cmd command, user database.User) error {
+	if len(cmd.Args) < 1 {
+		return fmt.Errorf("usage: %s <url>", cmd.Name)
+	}
+
+	feed, err := s.db.GetFeedByUrl(context.Background(), cmd.Args[0])
+	if err != nil {
+		return fmt.Errorf("failed to get feed by url: %w", err)
+	}
+	err = s.db.DeleteFeedFollow(context.Background(), 
+		database.DeleteFeedFollowParams{
+			UserID: user.ID,
+			FeedID: feed.ID,
+		})
+	if err != nil {
+		return fmt.Errorf("failed to delete feed follow: %w", err)
+	}
+	return nil
 }
 
 func handlerFollowing(s *state, cmd command, user database.User) error {
@@ -136,3 +150,8 @@ func handlerFollowing(s *state, cmd command, user database.User) error {
 	return nil
 }
 
+func printFeedFollow(feedFollow database.CreateFeedFollowRow) {
+	fmt.Printf("Created new feed follow:\n")
+	fmt.Printf(" * User:	%s\n", feedFollow.UserName)
+	fmt.Printf(" * Feed: 	%s\n", feedFollow.FeedName)
+}
