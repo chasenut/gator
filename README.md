@@ -60,7 +60,7 @@ additional `sslmode=disable` query added to it - application code needs to know 
 Gator uses **PostgreSQL** database to store its information about 
 users, feeds, and other surely important stuff. Database is set locally, 
 but you can probably also use a remote server.
-{
+
 ## PostgreSQL
 
 Here is a setup walk-through of PosgreSQL on local machine for **Linux**, 
@@ -88,7 +88,7 @@ It might be helpful to know what the **connection string** looks like.
 The format is: `protocol://username:password@host:port/database`.
 
 On **Linux**, given the username `postgres`, password `postgres` and database `gator`,
-i{t looks like this (most likely): `postgres://postgres:postgres@localhost:5432/gator`.
+it looks like this (most likely): `postgres://postgres:postgres@localhost:5432/gator`.
 
 Test your connection by running `psql`, for example:
 ```
@@ -112,17 +112,16 @@ goose postgres <connection_url> <up/down>
 
 ### SQLC
 
-[SQLC](https://sqlc.dev/) is used to compile SQL code to GO.
+[SQLC](https://sqlc.dev/) is used to compile SQL code to Go.
 Install it with the following command:
 ```
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-``{`
+```
 
 To use, in the root of your repo type the following command:
 ```
 sqlc generate
 ```
-
 
 ## Credit
 
