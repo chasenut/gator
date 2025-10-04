@@ -23,6 +23,28 @@ Gator features following commands:
 
 Here is how to get your Gator working.
 
+### Install or clone repo
+
+To do anything, you will need to have installed the [Go Toolchain](https://go.dev/doc/install).
+In order to install it on your local machine, execute the following command:
+```
+go install github.com/chasenut/gator
+```
+
+To run/build from source, clone repo:
+```
+git clone https://github.com/chasenut/gator gator
+```
+
+and in the root directory of the project, use:
+```
+go run . <command>
+```
+to run, or if you want to build binaries, type:
+```
+go build .
+```
+
 ### Config
 
 In order to work, you may have to create `.gatorconfig` file in your `$HOME` directory.
@@ -38,7 +60,7 @@ additional `sslmode=disable` query added to it - application code needs to know 
 Gator uses **PostgreSQL** database to store its information about 
 users, feeds, and other surely important stuff. Database is set locally, 
 but you can probably also use a remote server.
-
+{
 ## PostgreSQL
 
 Here is a setup walk-through of PosgreSQL on local machine for **Linux**, 
@@ -66,7 +88,7 @@ It might be helpful to know what the **connection string** looks like.
 The format is: `protocol://username:password@host:port/database`.
 
 On **Linux**, given the username `postgres`, password `postgres` and database `gator`,
-it looks like this (most likely): `postgres://postgres:postgres@localhost:5432/gator`.
+i{t looks like this (most likely): `postgres://postgres:postgres@localhost:5432/gator`.
 
 Test your connection by running `psql`, for example:
 ```
@@ -94,11 +116,12 @@ goose postgres <connection_url> <up/down>
 Install it with the following command:
 ```
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-```
+``{`
 
 To use, in the root of your repo type the following command:
 ```
-sqlc generate```
+sqlc generate
+```
 
 
 ## Credit
