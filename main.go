@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/chasenut/rss-feed-aggregator/internal/config"
-	"github.com/chasenut/rss-feed-aggregator/internal/database"
+	"github.com/chasenut/gator/internal/config"
+	"github.com/chasenut/gator/internal/database"
 	_ "github.com/lib/pq"
 )
 

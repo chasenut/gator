@@ -1,3 +1,5 @@
+github.com/chasenut/gator v0.0.0-20251004181942-9ff46590c47d h1:VpewcByzyNMMc41jOliaJ7C/OJhRLQ9MFpu0EcmwsC4=
+github.com/chasenut/gator v0.0.0-20251004181942-9ff46590c47d/go.mod h1:9+Y2Y2427WP9Ohv35EeFy9uY6gwErzgB3BGyw+e34l4=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=

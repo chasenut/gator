@@ -2,17 +2,16 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
-	"github.com/chasenut/rss-feed-aggregator/internal/database"
+	"github.com/chasenut/gator/internal/database"
 	"github.com/google/uuid"
 )
 
 func handlerLogin(s *state, cmd command, ) error {
 	if len(cmd.Args) == 0 {
-		return errors.New("Not enough positional arguments provided")
+		return fmt.Errorf("usage: %s <username>", cmd.Name)
 	}
 	name := cmd.Args[0]
 	if _, err := s.db.GetUser(context.Background(), name); err != nil {

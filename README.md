@@ -1,6 +1,27 @@
-# RSS Feed AggreGATOR
+# Gator
 
-RSS Feed Aggregator (Gator) is a cli tool to collect rss feeds.
+RSS Feed Aggregator (Gator) is a cli tool to collect, store, browse and manage online rss feeds.
+
+## Features
+
+Gator features following commands:
+
+- login <username> - log in using your username / switch to user
+- register <username> - create new user with your username
+- reset - resets everything
+- users - prints all users
+- agg <duration> - fetches and updates followed feeds in a continuous loop (with a little break between)
+- addfeed <name> <url> - add new feed to the collection (auto follows it)
+- feeds - prints all feeds in a collection
+- follow <url> - allows user to follow a feed
+- following - prints all feeds followed by the user
+- unfollow <url> - allows user to unfollow a feed
+- browse [limit] - prints all posts from the feeds followed by the user
+
+
+# Setup and build
+
+Here is how to get your Gator working.
 
 ### Config
 
@@ -13,7 +34,6 @@ additional `sslmode=disable` query added to it - application code needs to know 
 }
 ```
 
-# Setup and build
 
 Gator uses **PostgreSQL** database to store its information about 
 users, feeds, and other surely important stuff. Database is set locally, 
@@ -53,13 +73,11 @@ Test your connection by running `psql`, for example:
 psql "postgres://postgres:postgres@localhost:5432/gator"
 ```
 
-TODO: 
-- make some script for it?
-- add for ubuntu (maybe)
+# Development
 
 ### Migrations
 
-For migrations I can recommend using [Goose](https://github.com/pressly/goose). 
+For migrations I use [Goose](https://github.com/pressly/goose). 
 You can install it following the install process at source, or use:
 ```
 go install github.com/pressly/goose/v3/cmd/goose@latest
@@ -77,6 +95,11 @@ Install it with the following command:
 ```
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 ```
+
+To use, in the root of your repo type the following command:
+```
+sqlc generate```
+
 
 ## Credit
 

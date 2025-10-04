@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/chasenut/rss-feed-aggregator/internal/database"
+	"github.com/chasenut/gator/internal/database"
 )
 
 type command struct {

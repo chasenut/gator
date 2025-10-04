@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chasenut/rss-feed-aggregator/internal/database"
+	"github.com/chasenut/gator/internal/database"
 	"github.com/google/uuid"
 )
 
